@@ -26,8 +26,10 @@ where hiredate = 1982
 where DATE_FORMAT(hiredate,'%Y') = '1982'
 -- 9. 직업이 manager 사람들의 급여 평균을 조회
 select avg(sal) from emp where job = 'MANAGER'
--- 10. 입사날짜가 1987-06-28 이후 입사한 사원들의 급여 평균 조회.
+-- 10. 입사날짜가 1987-06-28 이후 입사한 사원들의 급여 평균 조회. error?
 select avg(sal) from emp where hiredate > '1987-06-28'
+=> select count(*), avg(sal) from emp 
+where hiredate >= '1987-06-28'
 -- 11. 9월에 입사한 사원의 이름, 번호, 입사날짜 조회
 select ename, empno, hiredate from emp 
 where date_format(hiredate, '%m') = '09' 
