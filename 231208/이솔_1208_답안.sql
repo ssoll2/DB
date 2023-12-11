@@ -19,9 +19,11 @@ select ename, sal from emp
 where sal > 1500 and deptno = 10 or 30
 => select ename, sal from emp
 where ( deptno = 10 or deptno = 30 ) and  sal >= 1500
--- 8. 1982년에 입사한 모든 사원의 이름과 입사일 조회
+-- 8. 1982년에 입사한 모든 사원의 이름과 입사일 조회 error
 select ename, hiredate from emp 
 where hiredate = 1982
+=> select ename, hiredate from emp 
+where DATE_FORMAT(hiredate,'%Y') = '1982'
 -- 9. 직업이 manager 사람들의 급여 평균을 조회
 select avg(sal) from emp where job = 'MANAGER'
 -- 10. 입사날짜가 1987-06-28 이후 입사한 사원들의 급여 평균 조회.
