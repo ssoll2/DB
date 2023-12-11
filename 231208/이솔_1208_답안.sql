@@ -45,9 +45,11 @@ select ename, comm from emp
 where comm > 0
 => SELECT ename, comm FROM emp 
 WHERE comm is null AND comm != 0
--- 15. 1983년 이후 입사한 사원의 급여 10%를 보너스로 주고, 사원의 이름, 보너스 금액, 급여, 입사날짜(년도만) 조회
+-- 15. 1983년 이후 입사한 사원의 급여 10%를 보너스로 주고, 사원의 이름, 보너스 금액, 급여, 입사날짜(년도만) 조회 error
 select ename, (sal*0.1)+comm, date_format(hiredate, '%y') from emp
 where hiredate > 1983
+=> SELECT ename, IFNULL(comm,sal * 0.1) AS '보너스', sal, DATE_FORMAT(hiredate,'%Y') FROM emp
+WHERE DATE_FORMAT(hiredate,'%Y') >= '1983'
 
 
 
