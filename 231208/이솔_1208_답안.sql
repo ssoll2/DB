@@ -40,9 +40,11 @@ where job = 'SALESMAN' and hiredate > '1981-02-22'
 select ename, job, sal from emp 
 where job = 'MANAGER' or 'SALESMAN' 
 order by sal desc
--- 14. 보너스를 받은 사원 이름, 보너스 조회 단, 0도 제외.
+-- 14. 보너스를 받은 사원 이름, 보너스 조회 단, 0도 제외. error ?
 select ename, comm from emp 
 where comm > 0
+=> SELECT ename, comm FROM emp 
+WHERE comm is null AND comm != 0
 -- 15. 1983년 이후 입사한 사원의 급여 10%를 보너스로 주고, 사원의 이름, 보너스 금액, 급여, 입사날짜(년도만) 조회
 select ename, (sal*0.1)+comm, date_format(hiredate, '%y') from emp
 where hiredate > 1983
