@@ -14,9 +14,11 @@ where sal < 1500 or sal > 2850
 -- 6. 1981년 2월 20일 ~ 1981년 5월 1일에 입사한 사원의 이름, 입사일 조회
 select ename, hiredate from emp 
 where hiredate between '1981-02-20' and '1981-05-01'
--- 7. 부서가 10, 30에 속하는 사원 중 급여가 1500을 넘는 사원의 이름 및 급여 조회
+-- 7. 부서가 10, 30에 속하는 사원 중 급여가 1500을 넘는 사원의 이름 및 급여 조회 error
 select ename, sal from emp 
 where sal > 1500 and deptno = 10 or 30
+=> select ename, sal from emp
+where ( deptno = 10 or deptno = 30 ) and  sal >= 1500
 -- 8. 1982년에 입사한 모든 사원의 이름과 입사일 조회
 select ename, hiredate from emp 
 where hiredate = 1982
