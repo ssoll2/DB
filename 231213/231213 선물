@@ -1,4 +1,4 @@
-### 12월 13일 SQL 문제 🎅
+            ### 12월 13일 SQL 문제 🎅
 
 -- 1. 사원이름, 사원직책, 사원급여 조회.
 select ename, job, sal from emp
@@ -189,14 +189,26 @@ select count(*) from emp
 select 
 	e.deptno as '부서번호'
 	d.dname as '부서이름',
-	d.loc as '부서근무지',
+-- 	d.loc as '부서근무지',
 	count(*)
 from emp as e right join dept as d
 on e.deptno = d.deptno
 where e.ename is null
+
+select 
+	e.deptno as '부서번호',
+	d.dname as '부서이름',
+	d.loc as '근무지',
+	count(*) as '사원 수'
+	
+from emp as e right join dept as d
+on e.deptno = d.deptno
+where e.ename is not null
+
+
 -- 
 -- 21. 9월에 입사한 사원의 이름, 번호, 입사날짜 조회.
-select ename, empno, date_format(hiredate, '%Y-%m-%d') from emp 
+select ename, empno, date_format(hiredate, '%Y-%m-%d') as '입사날짜' from emp 
 where date_format(hiredate, '%m') = 9
 -- 
 -- 22. 직업이 SALESMAN 이고 입사날짜가 1981-02-22 이후에 들어온 사원들의 급여 총합, 급여평균 조회.
@@ -213,10 +225,8 @@ where job = 'SALESMAN' and date_format(hiredate, '%Y-%m-%d') > 1981-02-22
 select 
 	e.deptno,
 	count(*),
-	d.dname,
 	d.loc
 from emp as e
 inner join dept as d
 on e.deptno = d.deptno
-where count(*) >=4
-
+-- where count(*) >=4
