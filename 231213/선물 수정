@@ -1,0 +1,239 @@
+ ### 12월 13일 SQL 문제 🎅
+
+-- 1. 사원이름, 사원직책, 사원급여 조회.
+select ename as '이름', job as '직책', sal as '급여' from emp
+-- 
+-- 2. 사수번호가 7839인 사원 번호, 이름, 입사날짜 조회.
+select distinct
+	sasu.empno as '사수 사원번호',
+	sasu.ename as '사수 이름',
+	sasu.hiredate as '입사날짜'
+from emp as busasu
+inner join emp as sasu
+on busasu.mgr = sasu.empno
+where sasu.empno = 7839
+
+-- 
+-- 3. 급여가 3000 이하인 사원의 모든 정보 조회.
+select *from emp 
+where sal <= 3000
+-- 
+-- 4. 사원이름, 부서번호, 부서이름, 부서 근무지 조회.
+select 
+	e.ename as '이름', 
+	e.deptno as '부서번호',
+	d.dname as '부서이름',
+	d.loc as '근무지'
+from emp as e 
+inner join dept as d
+on e.deptno = d.deptno
+-- 
+-- 5. 부서별 급여합계, 부서이름 조회.
+select sum(e.sal) as '급여합계', d.dname as '부서이름'
+from emp as e 
+inner join dept as d
+on e.deptno = d.deptno
+group by d.dname
+
+-- 
+-- 6. 부서 근무지가 NEW YORK이고, 직책이 MANAGER인 사원의 이름, 급여 조회. ?
+select 
+	e.ename as '이름',
+	e.sal as '급여'
+from emp as e 
+inner join dept as d
+on e.deptno = d.deptno
+where  e.job = 'MANAGER' and d.loc = 'NEW YORK'
+-- 
+-- 7. 1983년 이후 입사한 사원의 보너스가 null이면 100 주고, 사원의 이름, 부서이름, 직업 조회.
+select if(e.comm is null, '100','0') as '보너스', e.ename as '이름', d.dname as '부서이름', e.job as '직책'
+from emp as e
+inner join dept as d
+on e.deptno = d.DEPTNO 
+where date_format(e.hiredate, '%Y') > 1983
+-- 
+-- 8. 부서명이 RESEARCH인 사원의 이름, 급여, 근무 지역 조회. 
+select 
+	e.ename as '이름',
+	e.sal as '급여',
+	d.loc as '근무지'
+from emp as e
+inner join dept as d
+on e.deptno = d.deptno
+where d.dname = 'RESEARCH'
+-- 
+-- 9. 보너스를 받은 사원 이름, 직책, 급여, 부서명 조회.
+select
+	e.ename as '이름',
+	e.job as '직책',
+	e.sal as '급여',
+	d.dname as '부서명'
+from emp as e
+inner join dept as d
+on e.deptno = d.DEPTNO 
+where e.comm is not null
+--    
+-- 10. 이름 첫글 A자를 가진 사원 이름, 직책, 부서명, 부서 위치 조회.
+select 
+	e.ename as '이름',
+	e.job as '직책',
+	d.dname as '부서명',
+	d.loc as '근무지'
+from emp as e
+inner join dept as d
+on e.deptno = d.DEPTNO 
+where e.ename like 'A%'
+-- 
+-- 11. 사원명, 사수번호, 사수 이름 조회. 단, 사수가 없는 사원도 포함
+select 
+	busasu.ename as '사원 명',
+	sasu.empno as '사수 사원번호',
+	sasu.ename as '사수 이름'
+from emp as busasu
+inner join emp as sasu
+on busasu.mgr = sasu.empno
+
+
+
+-- 
+-- 12. 사원명, 사수번호, 사수 이름 조회. 단, 사수가 없는 사원만
+select 
+	busasu.ename as '사원 명',
+	sasu.empno as '사수 사원번호',
+	sasu.ename as '사수 이름'
+from emp as busasu
+inner join emp as sasu
+on busasu.mgr = sasu.empno
+-- 
+-- 13. 상사번호가 7698인 사원의 이름, 사원번호, 상사번호, 상사이름 조회.
+select 
+	busasu.ename,
+	busasu.empno,
+	sasu.empno,
+	sasu.ename
+from emp as busasu
+inner join emp as sasu
+on busasu.mgr = sasu.empno
+where busasu.mgr = 7698
+-- 
+-- 14. 상사보다 먼저 입사한 사원의 사원이름, 사원의 입사일, 상사 이름, 상사 입사일 조회.
+select 
+	busasu.ename as '사원 이름',
+	busasu.hiredate as '사원 입사일',
+	sasu.ename as '상사 이름',
+	sasu.hiredate as '상사 입사일'
+from emp as busasu
+inner join emp as sasu
+on busasu.mgr = sasu.empno
+where sasu.hiredate > busasu.hiredate
+-- 
+-- 15. 업무가 MANAGER이거나 CLERK고 입사날짜가 1982년에 입사한
+--     사원의 사원번호, 이름, 급여, 직업, 부서명 조회.
+select 
+	e.empno as '사원번호',
+	e.ename as '이름', 
+	e.sal as '급여', 
+	e.job as '직책',
+	d.dname as '부서명'
+from emp as e
+inner join dept as d
+on e.deptno = d.DEPTNO
+where e.job = 'MANAGER' or e.job = 'CLERK' and date_format(hiredate,'%Y') = '1982'
+
+-- 
+-- 16. 부서별 급여 총합 조회.
+--     단, 사원이 존재하지 않는 부서도 포함해서 급여 순으로 내림차순 하시오.
+select d.dname as '부서',
+		sum(e.sal) as '급여 총합'
+from emp as e right join dept as d
+on e.deptno = d.DEPTNO 
+where e.ename is null or e.ename is not null
+group by d.dname
+
+
+-- 
+-- 17. 사원 이름, 상사 이름, 사원 부서번호, 사원 부서명, 사원 근무지역 조회.
+--     단, 사원이 존재하지 않는 부서번호와 부서명도 조회.
+select
+	busasu.ename as "사원 이름",
+	busasu.deptno as "사원 부서번호",
+	sasu.ename as "상사 이름",
+	d.dname as "사원 부서명",
+	d.loc as "사원 근무지역"
+from emp as busasu
+inner join dept as d
+on busasu.deptno = d.deptno
+inner join emp as sasu 
+on busasu.mgr = sasu.empno
+where busasu.ename is null or busasu.ename is not null
+-- 
+-- 18. 부서 위치가 CHICAGO이고 사수 급여가 5000 미만인
+--     사원 번호,사원 이름,사수 번호, 사수 이름, 사수 급여, 부서명 조회.
+--     단, 사원의 입사날짜로 오름차순.
+select
+	busasu.empno as "사원 번호",
+	busasu.ename as "사원 이름",
+	sasu.empno as "사수 번호",
+	sasu.ename as "사수이름",
+ 	sasu.sal as "사수 급여",
+	d.dname as "부서명 "
+from emp as busasu
+inner join dept as d
+on busasu.deptno = d.deptno
+inner join emp as sasu 
+on busasu.mgr = sasu.empno
+where d.loc = "CHICAGO" and sasu.sal < 5000
+order by busasu.hiredate asc
+-- 
+-- 19. 입사날짜를 월별로 몇명이 입사했는지 카운트해서 조회.
+select count(*) from emp
+
+-- 
+-- 20. 부서번호, 부서이름, 부서 근무지, 사원 수 조회 단, 사원이 없는 부서도 조회할 수 있게
+
+select 
+	e.deptno as '부서번호',
+	d.dname as '부서이름',
+	d.loc as '근무지',
+	count(*) as '사원 수'
+	
+from emp as e right join dept as d
+on e.deptno = d.deptno
+where e.ename is  null 
+
+select 
+	e.deptno as '부서번호',
+	d.dname as '부서이름',
+	d.loc as '근무지',
+	count(*) as '사원 수'
+from emp as e
+inner join dept as d
+on e.deptno = d.DEPTNO 
+where e.ename is not null 
+group by d.dname
+order by d.deptno
+
+-- 
+-- 21. 9월에 입사한 사원의 이름, 번호, 입사날짜 조회.
+select ename, empno, date_format(hiredate, '%Y-%m-%d') as '입사날짜' from emp 
+where date_format(hiredate, '%m') = 9
+-- 
+-- 22. 직업이 SALESMAN 이고 입사날짜가 1981-02-22 이후에 들어온 사원들의 급여 총합, 급여평균 조회.
+select sum(sal) as '급여총합', avg(sal) as '급여평균' from emp 
+where job = 'SALESMAN' and date_format(hiredate, '%Y-%m-%d') > 1981-02-22
+-- 
+-- 23. 사원번호 8080, 사원이름 홍길동, 직업 MANAGER, 입사날짜를 오늘날짜로 사원 추가하시오. x
+-- 
+-- 24. 사원번호 8080인 사원 사수번호를 7839로 급여를 500으로 수정하시오. x
+-- 
+-- 25. 사원번호 8080인 사원을 삭제하시오. x
+-- 
+-- 26. 사원수가 4명 이상인 부서의 번호, 사원 수, 부서 이름, 부서 위치 조회.
+select 
+	e.deptno,
+	count(*),
+	d.loc
+from emp as e
+inner join dept as d
+on e.deptno = d.deptno
+-- where count(*) >=4
