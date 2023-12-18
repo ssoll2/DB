@@ -186,14 +186,6 @@ select count(*) from emp
 
 -- 
 -- 20. 부서번호, 부서이름, 부서 근무지, 사원 수 조회 단, 사원이 없는 부서도 조회할 수 있게
-select 
-	e.deptno as '부서번호'
-	d.dname as '부서이름',
--- 	d.loc as '부서근무지',
-	count(*)
-from emp as e right join dept as d
-on e.deptno = d.deptno
-where e.ename is null
 
 select 
 	e.deptno as '부서번호',
@@ -203,8 +195,19 @@ select
 	
 from emp as e right join dept as d
 on e.deptno = d.deptno
-where e.ename is not null
+where e.ename is  null 
 
+select 
+	e.deptno as '부서번호',
+	d.dname as '부서이름',
+	d.loc as '근무지',
+	count(*) as '사원 수'
+from emp as e
+inner join dept as d
+on e.deptno = d.DEPTNO 
+where e.ename is not null 
+group by d.dname
+order by d.deptno
 
 -- 
 -- 21. 9월에 입사한 사원의 이름, 번호, 입사날짜 조회.
