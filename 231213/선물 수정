@@ -186,7 +186,9 @@ where d.loc = "CHICAGO" and sasu.sal < 5000
 order by busasu.hiredate asc
 -- 
 -- 19. 입사날짜를 월별로 몇명이 입사했는지 카운트해서 조회.
-select count(*) from emp
+select  date_format(hiredate, '%m') as '월', count(*) as '사원 수' from emp
+group by date_format(hiredate, '%m') 
+order by date_format(hiredate, '%m') asc
 
 -- 
 -- 20. 부서번호, 부서이름, 부서 근무지, 사원 수 조회 단, 사원이 없는 부서도 조회할 수 있게
