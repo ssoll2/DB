@@ -1,7 +1,8 @@
-            ### 12월 13일 SQL 문제 🎅
+
+ ### 12월 13일 SQL 문제 🎅
 
 -- 1. 사원이름, 사원직책, 사원급여 조회.
-select ename, job, sal from emp
+select ename as '이름', job as '직책', sal as '급여' from emp
 -- 
 -- 2. 사수번호가 7839인 사원 번호, 이름, 입사날짜 조회.
 select distinct
@@ -20,16 +21,16 @@ where sal <= 3000
 -- 
 -- 4. 사원이름, 부서번호, 부서이름, 부서 근무지 조회.
 select 
-	e.ename,
-	e.deptno,
-	d.dname,
-	d.loc
+	e.ename as '이름',
+	e.deptno as '부서번호',
+	d.dname as '부서이름',
+	d.loc as '근무지'
 from emp as e 
 inner join dept as d
 on e.deptno = d.deptno
 -- 
 -- 5. 부서별 급여합계, 부서이름 조회.
-select sum(e.sal), d.dname 
+select sum(e.sal) as '급여합계', d.dname as '부서이름'
 from emp as e 
 inner join dept as d
 on e.deptno = d.deptno
@@ -38,15 +39,15 @@ group by d.dname
 -- 
 -- 6. 부서 근무지가 NEW YORK이고, 직책이 MANAGER인 사원의 이름, 급여 조회. ?
 select 
-	e.ename,
-	e.sal
+	e.ename as '이름',
+	e.sal as '급여'
 from emp as e 
 inner join dept as d
 on e.deptno = d.deptno
-where d.loc = 'NEWYORK' and e.job = 'MANAGER'
+where  e.job = 'MANAGER' and d.loc = 'NEW YORK'
 -- 
 -- 7. 1983년 이후 입사한 사원의 보너스가 null이면 100 주고, 사원의 이름, 부서이름, 직업 조회.
-select if(e.comm is null, '100','0') as '보너스', e.ename, d.dname, e.job
+select if(e.comm is null, '100','0') as '보너스', e.ename as '이름', d.dname as '부서이름', e.job as '직책'
 from emp as e
 inner join dept as d
 on e.deptno = d.DEPTNO 
@@ -54,9 +55,9 @@ where date_format(e.hiredate, '%Y') > 1983
 -- 
 -- 8. 부서명이 RESEARCH인 사원의 이름, 급여, 근무 지역 조회. 
 select 
-	e.ename,
-	e.sal,
-	d.loc,
+	e.ename as '이름',
+	e.sal as '급여',
+	d.loc as '근무지'
 from emp as e
 inner join dept as d
 on e.deptno = d.deptno
@@ -64,21 +65,21 @@ where d.dname = 'RESEARCH'
 -- 
 -- 9. 보너스를 받은 사원 이름, 직책, 급여, 부서명 조회.
 select
-	e.ename,
-	e.job,
-	e.sal,
-	d.dname
+	e.ename as '이름',
+	e.job as '직책',
+	e.sal as '급여',
+	d.dname as '부서명'
 from emp as e
 inner join dept as d
 on e.deptno = d.DEPTNO 
 where e.comm is not null
---    ,
+--    
 -- 10. 이름 첫글 A자를 가진 사원 이름, 직책, 부서명, 부서 위치 조회.
 select 
-	e.ename,
-	e.job,
-	d.dname,
-	d.loc
+	e.ename as '이름',
+	e.job as '직책',
+	d.dname as '부서명',
+	d.loc as '근무지'
 from emp as e
 inner join dept as d
 on e.deptno = d.DEPTNO 
@@ -92,6 +93,7 @@ select
 from emp as busasu
 inner join emp as sasu
 on busasu.mgr = sasu.empno
+
 
 
 -- 
