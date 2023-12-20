@@ -12,3 +12,10 @@ values(
 회사의 경쟁업체를 검색
 더브이씨
 https://thevc.kr/
+
+오랜기간 보호한 동물
+SELECT i.animal_id, i.name
+from animal_outs i, animal_ins o
+where i.animal_id = o.animal_id
+order by datediff(i.datetime, o.datetime) desc
+limit 2;
