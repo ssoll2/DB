@@ -199,7 +199,7 @@ where
 -- 3. 급여가 3000 이하인 사원의 모든 정보 조회.
 select *from emp 
 where sal <= 3000
--- 
+
 -- 4. 사원이름, 부서번호, 부서이름, 부서 근무지 조회.
 select 
 	e.ename,
