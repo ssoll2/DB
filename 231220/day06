@@ -1,1 +1,9 @@
-
+insert into movie
+(
+movie_name,
+genre
+)
+values(
+'아쿠아맨',
+'액션'
+)
