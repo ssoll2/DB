@@ -9,4 +9,112 @@
 notion에 글 적어서 강사님 이메일로 보내서 피드백 받기
 느낀점 쓰기
 
+프로젝트 디비
+CREATE TABLE TB_CUSTOMER (
+CUSTOMER_ID VARCHAR (100) primary key comment '고객ID',
+NAME VARCHAR (20) comment '이름' ,
+ADDRESS CHAR (150) comment '주소' ,
+TEL VARCHAR (50) comment '전화번호' ,
+SIGN_UP TIMESTAMP comment '가입날짜',
+GRADE_NO VARCHAR (30) comment '등급번호');
+
+CREATE TABLE TB_SALES (
+CUSTOMER_ID VARCHAR (100) comment '고객ID',
+PRODUCT_ID VARCHAR (100) comment '품번',
+SALES_DATE TIMESTAMP NOT null comment '판매날짜' ,
+AMOUNT INTEGER (4) comment '수량' ,
+SALES_STATUS BOOL comment '판매확정여부' );
+
+
+CREATE TABLE TB_PRODUCT (
+PRODUCT_ID VARCHAR (100) NOT null comment '품번' ,
+PRODUCT_NAME VARCHAR (100) comment '상품명' ,
+PRICE INTEGER (4) comment '가격',
+PRODUCT_SORT VARCHAR (50) comment '대분류' ,
+LICENSE VARCHAR (30) comment '사업자번호',
+PRODUCT_START_DATE TIMESTAMP comment '판매시작일자' ,
+PRODUCT_END_DATE TIMESTAMP comment '판매종료일자');
+
+CREATE TABLE GRADE (
+GRADE_NO VARCHAR (30) NOT null comment '등급번호' ,
+GRADE_SORT VARCHAR (200) comment '종류' ,
+COUPON INTEGER (4) comment '쿠폰' );
+
+CREATE TABLE SUPPLY (
+LICENSE VARCHAR (30) NOT null comment '사업자번호' ,
+SUPPLY_NAME VARCHAR (200) comment '납품업체명' ,
+REPRESENT_NAME VARCHAR (30) comment '대표자명' ,
+SUPPLY_TEL VARCHAR (30) comment '연락처',
+SUPPLY_EMAIL VARCHAR (50) comment '이메일' ,
+FOUNDATION_DATE TIMESTAMP comment '창립날짜' ,
+SUPPLY_ADDRESS VARCHAR (200) comment '회사주소' );
+
+
+commit
+insert into tb_customer(customer_id, name,address, tel,sign_up,grade_no) values(1000,'lee','서울시','1234-1234','2023-10-01',100)
+insert into tb_customer(customer_id, name,address, tel,sign_up,grade_no) values(2000,'gang','대전시','5678-5578','2023-12-20',200)
+insert into tb_customer(customer_id, name,address, tel,sign_up,grade_no) values(3000,'kim','천안시','7891-1232','2022-02-01',200)
+insert into tb_customer(customer_id, name,address, tel,sign_up,grade_no) values(4000,'gu','안양시','6780-1457','2021-05-04',100)
+insert into tb_customer(customer_id, name,address, tel,sign_up,grade_no) values(5000,'jo','김포시','3589-9087','2023-07-01',300)
+
+insert into tb_product(product_id,product_name,price,product_sort,license,product_start_date,product_end_date) values(1001,'방한부츠',49900,'신발','2222-2222','2023-11-01','2023-12-30')
+insert into tb_product(product_id,product_name,price,product_sort,license,product_start_date,product_end_date) values(2002,'런닝화',70000,'신발','3333-3333','2023-01-01','2023-12-30')
+insert into tb_product(product_id,product_name,price,product_sort,license,product_start_date,product_end_date) values(3003,'맨투맨',49900,'상의','4444-4444','2023-01-01','2023-11-30')
+insert into tb_product(product_id,product_name,price,product_sort,license,product_start_date,product_end_date) values(4004,'청바지',50000,'하의','5555-2222','2023-01-01','2024-12-30')
+insert into tb_product(product_id,product_name,price,product_sort,license,product_start_date,product_end_date) values(5005,'안경',10000,'악세사리','3333-8888','2023-11-01','2023-12-30')
+
+insert into tb_sales(customer_id,product_id,sales_date,amount,sales_status) values(1000,1001,'2023-11-09',1,true)
+insert into tb_sales(customer_id,product_id,sales_date,amount,sales_status) values(2000,2002,'2023-10-09',2,false)
+insert into tb_sales(customer_id,product_id,sales_date,amount,sales_status) values(3000,3003,'2023-09-08',1,true)
+
+insert into grade(grade_no,grade_sort,coupon) values(100,'브론즈', 50)
+insert into grade(grade_no,grade_sort,coupon) values(200,'실버', 100)
+insert into grade(grade_no,grade_sort,coupon) values(300,'골드', 150)
+
+
+insert into supply(license,supply_name,represent_name,supply_tel,supply_email,foundation_date,supply_address) values('2222-2222','슈펜','최운식',010-7778-5578,'jkghf@gmail.com','2022-09-19','서울시')
+
+insert into supply(license,supply_name,represent_name,supply_tel,supply_email,foundation_date,supply_address) values('107-18-37176','삭스신드롬','조은호',070-7604-1343,'hjdhfh@gmail.com','2020-07-03','김포시')
+insert into supply(license,supply_name,represent_name,supply_tel,supply_email,foundation_date,supply_address) values('4444-4444', '무신사', '한문일',010-5683-7832, 'h34su@gmail.com', '2012-07-03','서울시')
+
+select s.license,
+	   s.SUPPLY_NAME,
+	   s.REPRESENT_NAME,
+	   s.SUPPLY_TEL,
+	   s.SUPPLY_EMAIL,
+	   s.FOUNDATION_DATE,
+	   s.SUPPLY_ADDRESS 
+from supply as s
+inner join tb_product as tp
+on tp.license = s.LICENSE 
+inner join tb_sales as ts
+on tp.PRODUCT_ID = ts.PRODUCT_ID 
+where ts.SALES_STATUS = true
+
+
+select 
+	CUSTOMER_ID 
+from tb_sales 
+where sales_status = true
+
+
+select *
+from supply as s
+inner join tb_product as tp
+on tp.license = s.LICENSE 
+inner join tb_sales as ts
+on tp.PRODUCT_ID = ts.PRODUCT_ID 
+where s.LICENSE = '4444-4444'
+
+select * from supply 
+where license = '4444-4444'
+
+
+
+
+
+
+
+
+
 
